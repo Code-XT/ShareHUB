@@ -9,7 +9,7 @@ const Shortener = () => {
   const [shortenedUrl, setShortenedUrl] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const handleShorten = () => {
+  const handleEncrypt = () => {
     if (url.trim() === "" || keyValue.trim() === "") {
       alert("Please enter a URL and a key to shorten and encrypt");
       return;
@@ -24,6 +24,41 @@ const Shortener = () => {
     )}`;
     setShortenedUrl(shortened);
   };
+
+  // const handleShorten = () => {
+  //   if (url.trim() === "" || keyValue.trim() === "") {
+  //     alert("Please enter a URL and a key to shorten and encrypt");
+  //     return;
+  //   }
+
+  //   // Encrypt the URL with the key
+  //   const encryptedUrl = CryptoJS.AES.encrypt(url, keyValue).toString();
+
+  //   // Generate a short token (e.g., using a hash or sequential ID)
+  //   const shortToken = generateShortToken();
+  //   storeShortenedUrl(shortToken, encryptedUrl);
+
+  //   // Construct the shortened URL with the short token
+  //   const shortened = `https://share-hub-pi.vercel.app/${shortToken}`;
+  //   setShortenedUrl(shortened);
+  // };
+
+  // const generateShortToken = () => {
+  //   // Example: Generate a random 6-character string
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   const tokenLength = 6;
+  //   let token = "";
+  //   for (let i = 0; i < tokenLength; i++) {
+  //     token += characters.charAt(Math.floor(Math.random() * characters.length));
+  //   }
+  //   return token;
+  // };
+
+  // const storeShortenedUrl = (shortToken, encryptedUrl) => {
+
+  //   localStorage.setItem(shortToken, encryptedUrl);
+  // };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortenedUrl);
@@ -56,10 +91,17 @@ const Shortener = () => {
           />
         </div>
         <button
-          onClick={handleShorten}
+          onClick={handleEncrypt}
           className="w-full py-2 px-4 bg-blue-600 rounded hover:bg-blue-700 transition duration-200"
         >
-          Shorten & Encrypt
+          Encrypt
+        </button>
+
+        <button
+          className="w-full py-2 px-4 bg-gray-900 transition duration-200 mt-3"
+          readOnly
+        >
+          Shorten it! (TBD)
         </button>
 
         {shortenedUrl && (
