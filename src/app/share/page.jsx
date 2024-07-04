@@ -14,7 +14,7 @@ const Share = () => {
       ) : showCreate ? (
         <CreateRoom />
       ) : (
-        <div className="flex space-x-4">
+        <div className="min-h-screen flex space-x-5 my-16 place-items-start py-10 justify-center">
           <button
             className="bg-blue-600 border-2 rounded-full p-10 text-white hover:opacity-50"
             onClick={() => setShowCreate(true)}

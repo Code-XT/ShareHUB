@@ -42,7 +42,7 @@ export default function JoinRoomID() {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="min-h-screen flex flex-col space-y-5 place-items-start py-10 my-16">
       <input
         type="text"
         className="border border-gray-300 rounded p-2 w-64 text-black"
