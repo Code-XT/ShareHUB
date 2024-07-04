@@ -18,7 +18,9 @@ const Shortener = () => {
     const encryptedUrl = CryptoJS.AES.encrypt(url, keyValue).toString();
 
     // Construct the shortened URL
-    const shortened = `localhost:3000/${encodeURIComponent(encryptedUrl)}`;
+    const shortened = `https://share-hub-pi.vercel.app/${encodeURIComponent(
+      encryptedUrl
+    )}`;
     setShortenedUrl(shortened);
   };
 
