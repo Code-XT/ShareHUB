@@ -8,7 +8,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:3001");
+    const socket = io("https://share-hub-pi.vercel.app");
     setSocket(socket);
 
     return () => {
