@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CryptoJS from "crypto-js";
+import { QRCodeSVG } from "qrcode.react";
 
 const Shortener = () => {
   const [url, setUrl] = useState("");
@@ -10,7 +11,7 @@ const Shortener = () => {
 
   const handleShorten = () => {
     if (url.trim() === "" || keyValue.trim() === "") {
-      alert("Please enter a URL and a key to shorten and encrypt.");
+      alert("Please enter a URL and a key to shorten and encrypt");
       return;
     }
 
@@ -35,7 +36,7 @@ const Shortener = () => {
   return (
     <div className="min-h-screen flex place-items-start py-10 justify-center text-white">
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-4">URL Shortener and Encrypter</h2>
+        <h2 className="text-2xl font-bold mb-4">URL Encrypter</h2>
         <div className="mb-4">
           <label className="block mb-2">URL:</label>
           <input
@@ -60,9 +61,10 @@ const Shortener = () => {
         >
           Shorten & Encrypt
         </button>
+
         {shortenedUrl && (
           <div className="mt-4">
-            <p className="mb-2">Shortened URL:</p>
+            <p className="mb-2">Encrypted URL:</p>
             <div className="flex items-center">
               <input
                 type="text"
@@ -77,6 +79,11 @@ const Shortener = () => {
                 {copied ? "Copied!" : "Copy"}
               </button>
             </div>
+            <QRCodeSVG
+              value={shortenedUrl}
+              size={200}
+              className="mt-4 mx-auto"
+            />
           </div>
         )}
       </div>
