@@ -1,44 +1,48 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { useSocket } from "@/SocketContext";
 
 export default function Chat() {
-  const [socket, setSocket] = useState(undefined);
+  const socket = useSocket();
   const [message, setMessage] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messageList, setMessageList] = useState([]);
-  useEffect(() => {
-    const socket = io("http://localhost:3001");
-    setSocket(socket);
-  }, []);
 
   useEffect(() => {
-    if (socket) {
-      socket.on("message", ({ message }) => {
-        setMessageList([...messageList, message]);
-      });
-    }
-  });
+    if (!socket) return;
+
+    socket.on("message", ({ message }) => {
+      setMessageList([...messageList, message]);
+    });
+
+    return () => {
+      socket.off("message");
+    };
+  }, [socket]);
 
   const handleSubmit = () => {
-    socket.emit("message", { message, roomName });
-    setMessage("");
+    if (message.trim()) {
+      socket.emit("message", { message, roomId: roomName });
+      setMessage("");
+    }
   };
 
   const handleJoin = () => {
-    socket.emit("join", { roomName });
+    if (roomName.trim()) {
+      socket.emit("join", { roomId: roomName });
+    }
   };
+
   return (
-    <main className="flex min-h-screen flex-col pt-20">
-      <div>
+    <main className="flex min-h-screen flex-col items-center pt-20 text-black">
+      <div className="flex flex-col items-center w-full max-w-md">
         <input
           type="text"
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleJoin()}
           placeholder="Room Name"
-          className="border border-gray-300 rounded p-2 mx-5 text-black"
+          className="border border-gray-300 bg-slate-300 rounded p-2 mb-4 w-full text-black"
         />
         <input
           type="text"
@@ -46,34 +50,36 @@ export default function Chat() {
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder="Message"
-          className="border border-gray-300 rounded p-2 text-black"
+          className="border border-gray-300 bg-slate-300 rounded p-2 mb-4 w-full text-black"
         />
-        <button
-          onClick={handleSubmit}
-          className="border border-gray-300 rounded p-2 mx-5 my-2"
-        >
-          Send Message
-        </button>
-        <button
-          onClick={handleJoin}
-          className="border border-gray-300 rounded p-2 my-2"
-        >
-          Join Room
-        </button>
+        <div className="flex space-x-4">
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Send Message
+          </button>
+          <button
+            onClick={handleJoin}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Join Room
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center pt-10">
-        <h1 className="text-4xl font-bold">Chat</h1>
-
-        <div className="flex flex-col items-center justify-center">
-          {messageList?.map((message) => (
-            <div
-              className="border border-gray-300 rounded p-2 my-2"
-              key={message}
-            >
-              {message}
-            </div>
-          ))}
+      <div className="flex flex-col items-center justify-center pt-10 w-full max-w-md">
+        <h1 className="text-4xl font-bold mb-4">Chat</h1>
+        <div className="w-full bg-gray-100 p-4 rounded shadow-md">
+          {messageList.length > 0 ? (
+            messageList.map((msg, index) => (
+              <div className="border-b border-gray-300 py-2" key={index}>
+                {msg}
+              </div>
+            ))
+          ) : (
+            <div className="text-gray-500">No messages yet</div>
+          )}
         </div>
       </div>
     </main>
