@@ -40,7 +40,7 @@ const Shortener = () => {
     await storeShortenedUrl(shortToken, encryptedUrl);
 
     // Construct the shortened URL with the short token
-    const shortened = `http://localhost:3000/${shortToken}`;
+    const shortened = `https://share-hub-pi.vercel.app/${shortToken}`;
     setShortenedUrl(shortened);
   };
 
