@@ -1,17 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
+import { retrieveEncryptedURL } from "@/db/retrieve";
 
 const ShortURL = ({ params: { shortURL } }) => {
   const [keyValue, setKeyValue] = useState("");
   const [error, setError] = useState("");
 
-  const handleRedirect = () => {
+  const handleRedirect = async () => {
+    let decodedUrl = "";
+    if (shortURL.toString().length === 6) {
+      decodedUrl = await retrieveEncryptedURL(shortURL);
+    } else {
+      decodedUrl = decodeURIComponent(shortURL);
+    }
     try {
-      // Decode the base64-encoded shortened URL
-      const decodedUrl = decodeURIComponent(shortURL);
-
       // Decrypt the URL with the provided key
       const bytes = CryptoJS.AES.decrypt(decodedUrl, keyValue);
       const originalUrl = bytes.toString(CryptoJS.enc.Utf8);
