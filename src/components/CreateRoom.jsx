@@ -55,7 +55,7 @@ export default function CreateRoom() {
         <div className="font-mono mt-2 text-lg">{roomId.current}</div>
       </div>
       <QRCodeSVG
-        value={`http://localhost:3000/share/${roomId.current}`}
+        value={`https://share-hub-pi.vercel.app/share/${roomId.current}`}
         size={200}
         style={{ margin: "0 auto" }}
       />
