@@ -5,20 +5,23 @@ import RedirectBar from "@/RedirectBar";
 import { SocketProvider } from "@/SocketContext";
 import { usePathname } from "next/navigation";
 import HomeNavigation from "@/HomeNavigation"; // New Component
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const metadata = {
-  title: "ShareHUB",
-  description:
-    "Effortlessly transfer files, share shortened links, and chat with complete peace of mind.",
-};
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   return (
     <html lang="en">
+      <Head>
+        <title>ShareHUB</title>
+        <meta
+          name="description"
+          content="Effortlessly transfer files, share shortened links, and chat with complete peace of mind."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <body className={inter.className}>
         <main className="flex min-h-screen flex-col items-center justify-between">
           <h1 className="text-6xl font-bold pt-11">
