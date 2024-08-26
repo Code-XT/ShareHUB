@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <main className="flex min-h-screen flex-col items-center justify-between">
           <h1 className="text-6xl font-bold pt-11">
-            Share<span className="text-blue-500 text-7xl">HUB</span>
+            Share<span className="text-green-500 text-7xl">HUB</span>
           </h1>
           <SocketProvider>
             {/* Show either HomeNavigation or RedirectBar based on the path */}
