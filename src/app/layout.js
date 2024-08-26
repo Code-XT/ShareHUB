@@ -4,8 +4,7 @@ import "./globals.css";
 import RedirectBar from "@/RedirectBar";
 import { SocketProvider } from "@/SocketContext";
 import { usePathname } from "next/navigation";
-import HomeNavigation from "@/HomeNavigation"; // New Component
-import Head from "next/head";
+import HomeNavigation from "@/HomeNavigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +13,14 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <Head>
+      <head>
         <title>ShareHUB</title>
         <meta
           name="description"
           content="Effortlessly transfer files, share shortened links, and chat with complete peace of mind."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      </head>
       <body className={inter.className}>
         <main className="flex min-h-screen flex-col items-center justify-between">
           <h1 className="text-6xl font-bold pt-11">
