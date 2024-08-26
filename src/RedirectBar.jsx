@@ -31,12 +31,6 @@ export default function RedirectBar() {
       >
         <LucideShrink className="text-red-500 w-6 h-6" />
       </button>
-      <button
-        className="flex items-center justify-center w-12 h-12 border rounded-lg hover:bg-slate-100"
-        onClick={() => router.push("/chat")}
-      >
-        <MessageSquare className="text-green-500 w-6 h-6" />
-      </button>
     </div>
   );
 }
