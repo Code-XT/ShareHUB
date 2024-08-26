@@ -7,6 +7,7 @@ const CHUNK_SIZE = 64 * 1024; // 64 KB
 const Room = ({ params: { roomId } }) => {
   const socket = useSocket();
   const [files, setFiles] = useState([]);
+  const [currentFile, setCurrentFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef(null);
 
@@ -22,14 +23,23 @@ const Room = ({ params: { roomId } }) => {
       setFiles((prevFiles) => [...prevFiles, file]);
     });
 
+    // Listen for progress updates
+    socket.on("progressUpdate", ({ fileName, progress }) => {
+      if (fileName === currentFile?.fileName) {
+        setUploadProgress(progress);
+      }
+    });
+
     return () => {
       socket.off("fileReceived");
+      socket.off("progressUpdate");
     };
-  }, [socket, roomId]);
+  }, [socket, roomId, currentFile]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file && socket) {
+      setCurrentFile({ fileName: file.name });
       const reader = new FileReader();
       reader.onload = () => {
         const fileData = new Uint8Array(reader.result);
@@ -42,7 +52,7 @@ const Room = ({ params: { roomId } }) => {
 
   const sendFileInChunks = (fileData, fileName) => {
     const totalChunks = Math.ceil(fileData.byteLength / CHUNK_SIZE);
-    setUploadProgress(0);
+    let chunksSent = 0;
 
     for (let i = 0; i < totalChunks; i++) {
       const chunk = fileData.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
@@ -53,7 +63,9 @@ const Room = ({ params: { roomId } }) => {
         totalChunks,
         roomId,
       });
-      setUploadProgress(Math.round(((i + 1) / totalChunks) * 100));
+      chunksSent++;
+      const progress = Math.round((chunksSent / totalChunks) * 100);
+      socket.emit("progressUpdate", { fileName, progress, roomId });
     }
   };
 
@@ -99,7 +111,8 @@ const Room = ({ params: { roomId } }) => {
           ))}
         </div>
       </div>
-      {uploadProgress > 0 && uploadProgress < 100 && (
+
+      {currentFile && (
         <div className="mt-4 w-full max-w-md">
           <div className="h-2 bg-gray-700 rounded">
             <div
@@ -107,7 +120,9 @@ const Room = ({ params: { roomId } }) => {
               style={{ width: `${uploadProgress}%` }}
             ></div>
           </div>
-          <p className="text-center mt-2">{uploadProgress}%</p>
+          <p className="text-center mt-2">
+            {currentFile.fileName}: {uploadProgress}%
+          </p>
         </div>
       )}
     </div>
