@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const socket = io("https://server-sharehub.onrender.com");
-    // const socket = io("http://localhost:3001");
+    //const socket = io("http://localhost:3001");
     setSocket(socket);
 
     return () => {

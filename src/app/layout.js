@@ -1,17 +1,22 @@
+"use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import RedirectBar from "@/RedirectBar";
 import { SocketProvider } from "@/SocketContext";
+import { usePathname } from "next/navigation";
+import HomeNavigation from "@/HomeNavigation"; // New Component
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+const metadata = {
   title: "ShareHUB",
   description:
-    "Effortlessly share files, links, and messages with end-to-end encryption.",
+    "Effortlessly transfer files, share shortened links, and chat with complete peace of mind.",
 };
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -20,7 +25,8 @@ export default function RootLayout({ children }) {
             Share<span className="text-blue-500 text-7xl">HUB</span>
           </h1>
           <SocketProvider>
-            <RedirectBar />
+            {/* Show either HomeNavigation or RedirectBar based on the path */}
+            {pathname === "/" ? <HomeNavigation /> : <RedirectBar />}
             {children}
           </SocketProvider>
           <footer className="h-24 w-full text-center mt-8">
