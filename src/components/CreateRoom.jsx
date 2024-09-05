@@ -76,19 +76,22 @@ export default function CreateRoom() {
         size={200}
         style={{ margin: "0 auto" }}
       />
-      <button
-        className="px-6 py-3 mt-4 text-lg text-white bg-blue-500 rounded-lg hover:bg-blue-700"
-        onClick={handleCreate}
-      >
-        Share ID
-      </button>
 
-      <button
-        className="px-6 py-3 mt-4 text-lg text-white bg-yellow-500 rounded-lg hover:bg-green-700"
-        onClick={handleShare}
-      >
-        Share
-      </button>
+      <div className="text-lg text-white text-center flex flex-row space-x-4">
+        <button
+          className="px-6 py-3 mt-4 text-lg text-white bg-blue-500 rounded-lg hover:bg-blue-700"
+          onClick={handleCreate}
+        >
+          Share ID
+        </button>
+
+        <button
+          className="px-6 py-3 mt-4 text-lg text-white bg-yellow-500 rounded-lg hover:bg-yellow-700"
+          onClick={handleShare}
+        >
+          Share Invite
+        </button>
+      </div>
 
       <ToastContainer />
     </div>
