@@ -34,6 +34,23 @@ export default function CreateRoom() {
     });
   };
 
+  const handleShare = () => {
+    navigator.clipboard
+      .writeText(`https://share-hub-pi.vercel.app/share/${roomId.current}`)
+      .then(() => {
+        toast.success(`Invite link copied to clipboard`, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      });
+  };
+
   useEffect(() => {
     if (!socket) return;
 
@@ -62,6 +79,13 @@ export default function CreateRoom() {
       <button
         className="px-6 py-3 mt-4 text-lg text-white bg-blue-500 rounded-lg hover:bg-blue-700"
         onClick={handleCreate}
+      >
+        Share ID
+      </button>
+
+      <button
+        className="px-6 py-3 mt-4 text-lg text-white bg-yellow-500 rounded-lg hover:bg-green-700"
+        onClick={handleShare}
       >
         Share
       </button>
